@@ -1,6 +1,57 @@
 \documentclass[11pt,a4paper]{article}
 
 \usepackage{kotex}
+\usepackage{datetime}
+\usepackage{framed}
+\usepackage{fullpage}
+
+\newdateformat{koreandate}{\THEYEAR년 \twodigit{\THEMONTH}월 \twodigit{\THEDAY}일}
 
 \begin{document}
+
+\title{예약한 강의실의 접근성 및 이용 편의성 개선 방안}
+\author{
+김슬기\\
+김재찬\\
+김찬민\\
+심규민\\
+유재성
+}
+\date{}
+\maketitle
+
+\begin{framed}
+
+\centerline{\textless배움의 윤리 서약\textgreater}
+
+\begin{enumerate}
+\item 이 과제물은 내가(우리가) 직접 연구하여 작성한 것이다.
+\item 정확한 출처 제시 없이 다른 사람의 글이나 생각을 가져오지 않았다.
+\item 인용한 문헌의 내용이나 자료(도표나 데이터)를 조작(위조 혹은 변조)하지 않았다.
+\item 과제물을 다른 사람으로부터 받거나 구매하여 제출하지 않았다.
+\item 과제물 작성에 참여하지 않은 사람을 공동 제출자로 명기하지 않았다.
+\end{enumerate}
+
+\begin{center}
+이 과제물은 위의 항목들을 준수하여 작성한 것임을 확인합니다.\\
+\hfill\break
+\koreandate\today\\
+\hfill\break
+작성자\\
+\hfill\break
+김슬기 (서명)\\
+김재찬 (서명)\\
+김찬민 (서명)\\
+심규민 (서명)\\
+유재성 (서명)
+\end{center}
+
+\end{framed}
+
+\renewcommand{\abstractname}{초록}
+\begin{abstract}
+본 논문에서는 서울대학교 강의실 예약 시스템을 통해 예약한 강의실의 접근성과 그 강의실을 이용할 때까지 발생할 수 있는 불편함을 해소하여 편의성을 개선할 방안을 제시한다. 기존의 시스템은 제삼자인 수위의 도움을 받아야 문을 열 수 있는 등 강의실 접근성이 떨어지며, 인증을 해주는 수위가 자리를 비울 경우 강의실을 이용하지 못할 수도 있다. 본 연구에서는 우선 설문조사를 통해 이러한 문제가 실제로 존재하는지 보였다. 예약한 강의실 문이 잠겨 있는 것을 경험한 사용자는 전체의 절반이나 되었다. 문제를 해결할 수 있는 방안으로 블랙 리스트 모델과 화이트 리스트 모델을 제시하였다. 제시한 모델이 문제를 잘 해결할 수 있는지 검증하기 위해, 기존 모델과 제시한 모델들을 형식화하고 이를 프롤로그 언어로 프로그램을 작성하여 비교하였다. 그 결과 약한 블랙 리스트 모델은 오히려 기존 모델보다 불편하였고, 강한 블랙 리스트 모델과 화이트 리스트 모델은 모두 기존 모델의 기능을 잘 수행하면서, 불편한 점을 개선할 수 있었다.\\
+\centerline{핵심어: 강의실, 수위, 예약, 잠금장치, 일회성 비밀번호, 이미지 프로세싱}
+\end{abstract}
+
 \end{document}
