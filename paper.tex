@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage[english]{babel}
+\usepackage{minted}
 \graphicspath{ {images/} }
 
 \newdateformat{koreandate}{\THEYEAR년 \twodigit{\THEMONTH}월 \twodigit{\THEDAY}일}
@@ -966,4 +967,15 @@ CCTV가 없는 곳도 존재한다. 그러므로 이런 강의실에 CCTV를 설
 \hline
 \end{tabular}
 \end{center}
+
+\subsection{Prolog 코드}
+\subsubsection{기존 모델}
+\inputminted[fontsize=\footnotesize]{prolog}{prev_model.pl}
+\subsubsection{약한 블랙 리스트 모델}
+\inputminted[fontsize=\footnotesize]{prolog}{weak_black.pl}
+\subsubsection{블랙 리스트 모델}
+\inputminted[fontsize=\footnotesize]{prolog}{black_model.pl}
+\subsubsection{화이트 리스트 모델}
+\inputminted[fontsize=\footnotesize]{prolog}{white_model.pl}
+
 \end{document}
