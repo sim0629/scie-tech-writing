@@ -28,7 +28,7 @@ not_holder(X, Time, Room) :- normal(X), timeseg(Time), room(Room), \+ holder(X, 
 
 /* the condition that should be satisfied for invite */
 /* if X invited someone, then X should be the holder of the room, otherwise fail. */
-/* !, fail. 은 존재의 부정을 의미한다. 즉 앞 predicate가 true가 되면 즉시 탐색을 멈추고, false를 리턴 */ 
+/* !, fail. 은 존재의 부정을 의미한다. 즉 앞 predicate가 true가 되면 즉시 탐색을 멈추고, false*/
 invite(X, _, Time, Room) :- not_holder(X, Time, Room), !, fail.
 guest(X, Time, Room) :- holder(Y, Time, Room), invite(Y, X, Time, Room). /* common */
 
@@ -39,11 +39,13 @@ is_guard_present(Time) :- is_present(G, Time), guard(G).
 is_guard_absent(Time) :- timeseg(Time), not(is_guard_present(Time)).
 
 /* 약한 화이트리스트 모델 */
-is_door_opened(Time, Room) :- fail. /* 임의의 강의실이 임의의 시간에 잠겨 있거나 열려 있을 수 있으므로, 여기서 프로토타입 정의하고 뒤에서 따로 정의 */
+is_door_opened(Time, Room) :- fail. /* 임의의 강의실이 임의의 시간에 잠겨 있거나 열려 있을 수 있으므로,
+  여기서 프로토타입 정의하고 뒤에서 따로 정의 */
+
 /* X가 예약을 했으면 X는 점유할 권한이 있다. */
 may_occupy(X, Time, Room) :- normal(X), timeseg(Time), room(Room), holder(X, Time, Room). /* common */
 /* 경비는 존재할 때 언제나 점유할 권한이 있다. */
-may_occupy(Guard, Time, Room) :- timeseg(Time), room(Room), guard(Guard), is_guard_present(Time). /* common */
+may_occupy(Guard, Time, Room) :- timeseg(Time), room(Room), guard(Guard), is_guard_present(Time).
 /* X가 허가된 사용자면, X는 점유할 권한이 있다. */
 may_occupy(X, Time, Room) :- guest(X, Time, Room). /* white list 1 */
 
@@ -52,9 +54,11 @@ can_enter_1(_, Time, Room) :- is_door_opened(Time, Room). /* white list 2 */
 /* 점유할 권한이 있으면, 방에 들어갈 수 있다. */
 can_enter_2(A, Time, Room) :- may_occupy(A, Time, Room). /* white list 3 */
 /* can_enter_1이거나 can_enter_2이고, X가 존재하면, 방에 들어갈 수 있다. */
-can_enter(X, Time, Room) :- human(X), is_present(X, Time), (can_enter_1(X, Time, Room); can_enter_2(X, Time, Room)). /* white list 4 */
+can_enter(X, Time, Room) :- human(X), is_present(X, Time), (can_enter_1(X, Time, Room);
+  can_enter_2(X, Time, Room)). /* white list 4 */
 
-no_other_can_occupy(A, Time, Room) :- human(A), timeseg(Time), room(Room), not((B \= A, can_occupy(B, Time, Room))). /* white list 5 */
+no_other_can_occupy(A, Time, Room) :- human(A), timeseg(Time), room(Room),
+  not((B \= A, can_occupy(B, Time, Room))). /* white list 5 */
 /* A이외의 아무도 점유할 수 없고 A가 들어갈 수 있으면 A는 점유할 수 있다. */
 can_occupy(A, Time, Room) :- no_other_can_occupy(A, Time, Room), can_enter(A, Time, Room). /* white list 7 */
 /* A가 B가 아니고, B가 점유할 수 있고, A가 권한이 있으면, A가 점유할 수 있다.*/
@@ -65,7 +69,8 @@ someone_can_occupy(Time, Room) :- timeseg(Time), room(Room), can_occupy(_, Time,
 noone_can_occupy(Time, Room) :- timeseg(Time), room(Room), \+ someone_can_occupy(Time, Room).
 
 /* 아무도 점유를 할 수 없거나, 예약해놓고도 사용하지 않는 경우가 있다. */
-noone_occupy(Time, Room) :- noone_can_occupy(Time, Room); (may_occupy(_, Time, Room), timeseg(Time), room(Room), !).
+noone_occupy(Time, Room) :- noone_can_occupy(Time, Room); (may_occupy(_, Time, Room), timeseg(Time),
+  room(Room), !).
 
 /* 문이 열려 있고 아무도 점유하고 있지 않은 상태면 파손 행위가 가능하다 */
 can_harm(Time, Room) :- is_door_opened(Time, Room), noone_occupy(Time, Room).

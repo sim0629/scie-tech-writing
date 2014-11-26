@@ -35,7 +35,7 @@ not_holder(X, Time, Room) :- normal(X), timeseg(Time), room(Room), \+ holder(X, 
 
 /* the condition that should be satisfied for invite */
 /* if X invited someone, then X should be the holder of the room, otherwise fail. */
-/* !, fail. 은 존재의 부정을 의미한다. 즉 앞 predicate가 true가 되면 즉시 탐색을 멈추고, false를 리턴 */
+/* !, fail. 은 존재의 부정을 의미한다. 즉 앞 predicate가 true가 되면 즉시 탐색을 멈추고, false */
 invite(X, _, Time, Room) :- not_holder(X, Time, Room), !, fail.
 guest(X, Time, Room) :- holder(Y, Time, Room), invite(Y, X, Time, Room). /* common */
 
@@ -59,29 +59,31 @@ may_not_occupy(X, Time, Room) :- human(X), timeseg(Time), room(Room), \+ may_occ
 /* 방이 열려있으면, 누구나 들어갈 수 있다. */
 can_enter(_, Time, Room) :- is_door_opened(Time, Room).
 
-is_there_stronger(A, Time, Room) :- normal(A), timeseg(Time), room(Room),
-  normal(B), is_present(B, Time), (may_occupy(B, Time, Room); stronger(B, A)), may_not_occupy(A, Time, Room).
+is_there_stronger(A, Time, Room) :- normal(A), timeseg(Time), room(Room), normal(B),
+  is_present(B, Time), (may_occupy(B, Time, Room); stronger(B, A)), may_not_occupy(A, Time, Room).
 /* 특정 강의실이 예약되지 않은 시간에는 누구도 그 강의실을 점유할 수 없다. */
 cannot_occupy1(A, Time, Room) :- human(A), timeseg(Time), room(Room), \+ holder(_,Time,Room).
 /* 특정 강의실이 예약된 시간에, 강의실에 들어갈 수 있고, 허가되지 않은 사용자가,
  * 허가된 사람이나 강한 사람이 점유하면 강의실을 점유할 수 없다. */
-cannot_occupy2(A, Time, Room) :- holder(_,Time,Room), can_enter(A,Time,Room), is_there_stronger(A, Time, Room),
-  may_not_occupy(A,Time,Room).
+cannot_occupy2(A, Time, Room) :- holder(_,Time,Room), can_enter(A,Time,Room),
+  is_there_stronger(A, Time, Room), may_not_occupy(A,Time,Room).
 cannot_occupy(A, Time, Room) :- cannot_occupy1(A, Time, Room); cannot_occupy2(A, Time, Room).
 /* 특정 강의실이 예약된 시간에, 강의실에 들어갈 수 있고, 허가되지 않은 사용자가,
  * 허가된 사람과 강한 사람이 점유하지 않으면 강의실을 점유할 수 있다. */
-can_occupy(A, Time, Room) :- is_present(A, Time), normal(A), holder(_,Time,Room), can_enter(A,Time,Room),
+can_occupy(A, Time, Room) :- is_present(A, Time), normal(A), holder(_,Time,Room),
+  can_enter(A,Time,Room),
   may_not_occupy(A,Time,Room),\+ is_there_stronger(A,Time,Room).
 /* 특정 강의실이 예약된 시간에, 강의실에 들어갈 수 있고, 허가된 사용자가 강의실을 점유할 수 있다. */
-can_occupy(A, Time, Room) :- is_present(A, Time), normal(A), holder(_,Time,Room), can_enter(A,Time,Room),
-  may_occupy(A,Time,Room).
+can_occupy(A, Time, Room) :- is_present(A, Time), normal(A), holder(_,Time,Room),
+  can_enter(A,Time,Room), may_occupy(A,Time,Room).
 
 someone_can_occupy(Time, Room) :- timeseg(Time), room(Room), can_occupy(_, Time, Room).
 
 noone_can_occupy(Time, Room) :- timeseg(Time), room(Room), \+ someone_can_occupy(Time, Room).
 
 /* 아무도 점유를 할 수 없거나, 예약해놓고도 사용하지 않는 경우가 있다. */
-noone_occupy(Time, Room) :- noone_can_occupy(Time, Room); (may_occupy(_, Time, Room), timeseg(Time), room(Room)).
+noone_occupy(Time, Room) :- noone_can_occupy(Time, Room); (may_occupy(_, Time, Room), timeseg(Time),
+  room(Room)).
 
 
 /* 감시카메라가 있으므로 도둑질 및 파손행위를 할 수 없다. */

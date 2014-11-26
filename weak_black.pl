@@ -28,7 +28,7 @@ not_holder(X, Time, Room) :- normal(X), timeseg(Time), room(Room), \+ holder(X, 
 
 /* the condition that should be satisfied for invite */
 /* if X invited someone, then X should be the holder of the room, otherwise fail. */
-/* !, fail. 은 존재의 부정을 의미한다. 즉 앞 predicate가 true가 되면 즉시 탐색을 멈추고, false를 리턴 */ 
+/* !, fail. 은 존재의 부정을 의미한다. 즉 앞 predicate가 true가 되면 즉시 탐색을 멈추고, false */
 invite(X, _, Time, Room) :- not_holder(X, Time, Room), !, fail.
 guest(X, Time, Room) :- holder(Y, Time, Room), invite(Y, X, Time, Room). /* common */
 
@@ -55,13 +55,14 @@ cannot_enter_1(_, Time, Room) :- is_door_not_opened(Time, Room), is_guard_absent
 cannot_enter_2(A, Time, Room) :- is_door_not_opened(Time, Room),
     holder(B, Time, Room), is_absent(B, Time), guest(A, Time, Room). /* prev 5 */
 /* 문이 열려있지 않고, 경비가 존재하고, 예약자고, , 들어갈 수 있다. */
-can_enter(X, Time, Room) :- is_door_not_opened(Time, Room), is_guard_present(Time), holder(X, Time, Room),
-    not(cannot_enter_1(X,Time,Room);cannot_enter_2(X,Time,Room)). /* prev 4 */
+can_enter(X, Time, Room) :- is_door_not_opened(Time, Room), is_guard_present(Time),
+  holder(X, Time, Room), not(cannot_enter_1(X,Time,Room);cannot_enter_2(X,Time,Room)). /* prev 4 */
 /*  */
 can_enter(X, Time, Room) :- human(X), is_door_opened(Time, Room),
     not(cannot_enter_1(X,Time,Room);cannot_enter_2(X,Time,Room)). /* prev 2 */
 
-no_other_can_occupy(A, Time, Room) :- human(A), timeseg(Time), room(Room), not((B \= A, can_occupy(B, Time, Room))).
+no_other_can_occupy(A, Time, Room) :- human(A), timeseg(Time), room(Room),
+  not((B \= A, can_occupy(B, Time, Room))).
 
 /* A이외의 아무도 점유할 수 없고 A가 들어갈 수 있으면 A는 점유할 수 있다. */
 can_occupy(A, Time, Room) :- no_other_can_occupy(A, Time, Room), can_enter(A, Time, Room). /* prev 6 */
@@ -74,7 +75,8 @@ someone_can_occupy(Time, Room) :- timeseg(Time), room(Room), can_occupy(_, Time,
 noone_can_occupy(Time, Room) :- timeseg(Time), room(Room), \+ someone_can_occupy(Time, Room).
 
 /* 아무도 점유를 할 수 없거나, 예약해놓고도 사용하지 않는 경우가 있다. */
-noone_occupy(Time, Room) :- noone_can_occupy(Time, Room); (may_occupy(_, Time, Room), timeseg(Time), room(Room), !).
+noone_occupy(Time, Room) :- noone_can_occupy(Time, Room);
+  (may_occupy(_, Time, Room), timeseg(Time), room(Room), !).
 
 /* 문이 열려 있고 아무도 점유하고 있지 않은 상태면 파손 행위가 가능하다 */
 can_harm(Time, Room) :- is_door_opened(Time, Room), noone_occupy(Time, Room).
