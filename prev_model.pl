@@ -108,3 +108,66 @@ invite(seulgi, jaechan, sat, r302).
 /* 슬기는 규민을 일요일에 302호로 초대했다. */
 invite(seulgi, gyumin, sun, r302).
 /* 시나리오 끝 */
+
+
+/* 질의들. */
+/* 1. 예약했고 왔는데 점유에 실패하는 경우 */
+?- holder(X, Time, Room), is_present(X, Time), not(can_occupy(X, Time, Room)).
+X = jaechan,
+Time = sat,
+Room = r301 ;
+X = seulgi,
+Time = sat,
+Room = r302 ;
+false.
+
+/* 2. 허가되지 않은 사용자가 강의실을 점유할 수 있는가? */
+?- can_occupy(A,B,C), not(may_occupy(A,B,C)).
+A = jaechan,
+B = mon,
+C = r301 ;
+A = jaechan,
+B = mon,
+C = r302 ;
+A = jaechan,
+…
+A = chanmin,
+B = fri,
+C = r305 ;
+false.
+
+/* 3. can_harm(Time, Room)? */
+?- can_harm(Time, Room).
+Time = mon,
+Room = r301 ;
+Time = tue,
+Room = r301 ;
+…
+Time = fri,
+Room = r305.
+
+/* 4. 경비가 없고 휴일일 때 권한이 있는 사람이 점유할 수 있는가? */
+?- is_guard_absent(Time), can_occupy(A, Time, Room), may_occupy(A, Time, Room), holiday(Time).
+false.
+
+/* 5. 예약한 시간에 can_harm일 수 있는가? (전원이 자리를 비우면 안되는가?) */
+?- holder(A, Time, Room), can_harm(Time, Room).
+A = seulgi,
+Time = mon,
+Room = r301 ;
+A = seulgi,
+Time = tue,
+Room = r301.
+
+/* 6. 허가된 사용자가 점유할 수 없는 경우가 있는가? */
+?- guest(A, Time, Room), not(can_occupy(A, Time, Room)).
+A = gyumin,
+Time = sat,
+Room = r301 ;
+A = jaechan,
+Time = sat,
+Room = r302 ;
+A = gyumin,
+Time = sun,
+Room = r302 ;
+false.
