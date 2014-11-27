@@ -9,9 +9,11 @@
 \usepackage[english]{babel}
 \usepackage{minted}
 \usepackage{supertabular}
+\usepackage{array}
 \graphicspath{ {images/} }
 
 \newdateformat{koreandate}{\THEYEAR년 \twodigit{\THEMONTH}월 \twodigit{\THEDAY}일}
+\newcolumntype{x}[1]{>{\centering\arraybackslash}p{#1}}
 
 \begin{document}
 \title{예약한 강의실의 접근성 및 이용 편의성 개선 방안}
@@ -658,10 +660,24 @@ CCTV가 없는 곳도 존재한다. 그러므로 이런 강의실에 CCTV를 설
 \end{center}
 \end{enumerate}
 \subsection{설문조사 결과}
+\begin{itemize}
+\item[$A_1$] 예약 후 확인을 위해 수위에게 예약 신청서를 요구 받은 적이 있습니까?
+\item[$A_2$] 수위가 예약 시스템의 존재를 몰라 불편을 겪었던 적이 있습니까?
+\item[$A_3$] 예약 후 수위가 자리를 비워 불편을 겪은 적이 있습니까?
+\item[$A_4$] 예약 후 강의실에 갔더니 문이 잠겨 있어 불편을 겪은 적이 있습니까?
+\item[$A_5$] 예약하지 않은 사람이 예약한 강의실을 선점하여 불편을 겪은 적이 있습니까?
+\item[$A_6$] 예약 시간 연장의 필요성을 느낀 적이 있습니까?
+\item[$A_7$] 이미 예약한 시간을 변경하거나, 예약을 취소해야 했던 적이 있습니까?
+\item[$A_8$] 강의실 사용 중 (식사 등의 이유로) 전원이 자리를 비웠던 적이 있습니까?
+\item[$A_9$] 예약자가 늦게 도착하거나 불참하게 되어 불편을 겪은 적이 있습니까?
+\item[$B_1$] 예약자가 찾아올 시간에 수위가 자리를 지키고 있는 것이 얼마나 중요하다고 생각하십니까?
+\item[$B_2$] 예약자가 예약한 시간에 기다림 없이 바로 강의실을 사용할 수 있는 것이 얼마나 중요하다고 생각하십니까?
+\item[$B_3$] 예약자가 늦게 왔을 때에도 일행이 강의실에 들어갈 수 있게 하는 것이 얼마나 중요하다고 생각하십니까?
+\end{itemize}
 \begin{center}
-\begin{supertabular}{ | p{2cm} | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\begin{supertabular}{ | p{2cm} | x{1.6cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | x{0.5cm} | }
 \hline
-단과대학 & 예약 경험 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 1 & 2 & 3 \\
+단과대학 & 예약 경험 & $A_1$ & $A_2$ & $A_3$ & $A_4$ & $A_5$ & $A_6$ & $A_7$ & $A_8$ & $A_9$ & $B_1$ & $B_2$ & $B_3$ \\
 \hline
 윗공대 & X & & & & & & & & & & & & \\
 윗공대 & X & & & & & & & & & & & & \\
