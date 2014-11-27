@@ -38,7 +38,7 @@ is_present(P, Time) :- human(P), timeseg(Time), not(is_absent(P,Time)).
 is_guard_present(Time) :- is_present(G, Time), guard(G).
 is_guard_absent(Time) :- timeseg(Time), not(is_guard_present(Time)).
 
-/* 약한 화이트리스트 모델 */
+/* 현실적 화이트리스트 모델 */
 is_door_opened(Time, Room) :- fail. /* 임의의 강의실이 임의의 시간에 잠겨 있거나 열려 있을 수 있으므로,
   여기서 프로토타입 정의하고 뒤에서 따로 정의 */
 
