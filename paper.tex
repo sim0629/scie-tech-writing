@@ -9,6 +9,7 @@
 \usepackage{minted}
 \usepackage{supertabular}
 \usepackage{array}
+\usepackage[labelsep=period]{caption}
 \graphicspath{ {images/} }
 
 \newdateformat{koreandate}{\THEYEAR년 \twodigit{\THEMONTH}월 \twodigit{\THEDAY}일}
@@ -78,8 +79,10 @@
 
 \renewcommand{\contentsname}{목차}
 \tableofcontents
+\renewcommand{\figurename}{그림}
 \renewcommand{\listfigurename}{그림 목차}
 \listoffigures
+%\renewcommand{\tablename}{표}
 %\renewcommand{\listtablename}{표 목차}
 %\listoftables
 
