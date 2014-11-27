@@ -8,6 +8,7 @@
 \usepackage{float}
 \usepackage[english]{babel}
 \usepackage{minted}
+\usepackage{supertabular}
 \graphicspath{ {images/} }
 
 \newdateformat{koreandate}{\THEYEAR년 \twodigit{\THEMONTH}월 \twodigit{\THEDAY}일}
@@ -658,7 +659,7 @@ CCTV가 없는 곳도 존재한다. 그러므로 이런 강의실에 CCTV를 설
 \end{enumerate}
 \subsection{설문조사 결과}
 \begin{center}
-\begin{tabular}{ | p{2cm} | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\begin{supertabular}{ | p{2cm} | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 단과대학 & 예약 경험 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 1 & 2 & 3 \\
 \hline
@@ -965,7 +966,7 @@ CCTV가 없는 곳도 존재한다. 그러므로 이런 강의실에 CCTV를 설
 경영대 & O & X & X & X & X & O & O & O & O & X & 1 & 1 & 4 \\
 사범대 & O & O & X & O & X & X & X & O & X & X & 5 & 5 & 1 \\
 \hline
-\end{tabular}
+\end{supertabular}
 \end{center}
 
 \subsection{Prolog 코드}
